@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Marketing Brief — 작동 방식</title>
+<style>
+  :root {
+    --bg: #faf9f7;
+    --card: #ffffff;
+    --card2: #f4f3f1;
+    --border: #e5e7eb;
+    --border2: #d1d5db;
+    --accent: #FD802E;
+    --accent2: #e86d1e;
+    --accent-bg: #fff4ee;
+    --green: #16a34a;
+    --green-bg: #f0fdf4;
+    --yellow: #d97706;
+    --yellow-bg: #fffbeb;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --tx1: #111827;
+    --tx2: #6b7280;
+    --tx3: #9ca3af;
+    --naver: #03c75a;
+    --youtube: #ff0000;
+    --instagram: #e1306c;
+    --tiktok: #00bcd4;
+    --x: #374151;
+    --claude: #7c3aed;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--tx1);
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .page { max-width: 1100px; margin: 0 auto; padding: 60px 24px 100px; }
+
+  /* Hero */
+  .hero { text-align: center; padding: 72px 0 60px; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-family: monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(253,128,46,.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    margin-bottom: 28px;
+    background: var(--accent-bg);
+  }
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: var(--tx1);
+  }
+  .hero p { color: var(--tx2); font-size: 16px; max-width: 560px; margin: 0 auto; }
+
+  /* Section */
+  .section { margin-top: 80px; }
+  .section-label { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .section-num { font-family: monospace; font-size: 11px; color: var(--accent); letter-spacing: .12em; }
+  .section-divider { flex: 0 0 1px; height: 14px; background: var(--border2); }
+  .section-title { font-size: 20px; font-weight: 700; }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .card2 {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  @media(max-width:700px){ .grid2,.grid3{ grid-template-columns:1fr; } }
+
+  /* Sub sections within card */
+  .sub-sec { margin-top: 36px; padding-top: 36px; border-top: 1px solid var(--border); }
+  .sub-label {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: monospace;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sub-label::before { content: ''; width: 16px; height: 2px; background: var(--accent); border-radius: 1px; }
+
+  /* Flow boxes */
+  .flow-box {
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    border: 1px solid transparent;
+    min-width: 90px;
+  }
+  .fb-naver  { background: rgba(3,199,90,.1); border-color: rgba(3,199,90,.3); color: #059942; }
+  .fb-youtube{ background: rgba(255,0,0,.08); border-color: rgba(255,0,0,.2); color: #cc0000; }
+  .fb-x      { background: rgba(55,65,81,.07); border-color: rgba(55,65,81,.2); color: #374151; }
+  .fb-claude { background: rgba(124,58,237,.08); border-color: rgba(124,58,237,.2); color: var(--claude); }
+  .fb-api    { background: rgba(253,128,46,.1); border-color: rgba(253,128,46,.25); color: var(--accent2); }
+  .fb-cache  { background: rgba(217,119,6,.08); border-color: rgba(217,119,6,.2); color: var(--yellow); }
+  .fb-output { background: rgba(22,163,74,.08); border-color: rgba(22,163,74,.2); color: var(--green); }
+
+  /* Tags */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-family: monospace;
+    padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border2);
+    color: var(--tx2);
+    background: var(--card2);
+    white-space: nowrap;
+  }
+  .tag-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Platform tabs */
+  .platform-strip { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+  .platform-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border2);
+    background: var(--card2);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color .2s, transform .15s;
+    color: var(--tx1);
+  }
+  .platform-btn:hover { transform: translateY(-1px); }
+  .platform-btn.active { border-color: var(--accent); background: var(--accent-bg); color: var(--accent2); }
+  .platform-btn .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .detail-panel { display: none; animation: fadeIn .25s ease; }
+  .detail-panel.visible { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+  /* Steps */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step { display: flex; gap: 20px; position: relative; }
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px; top: 44px;
+    width: 1px;
+    height: calc(100% - 20px);
+    background: var(--border2);
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: monospace; font-size: 13px; font-weight: 700;
+    background: var(--accent-bg);
+    border: 1px solid rgba(253,128,46,.3);
+    color: var(--accent);
+    z-index: 1;
+  }
+  .step-body { padding-bottom: 32px; flex: 1; }
+  .step-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; padding-top: 8px; }
+  .step-desc { color: var(--tx2); font-size: 13px; line-height: 1.7; }
+  .step-meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+
+  /* Keyword cloud */
+  .kw-cloud { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+  .kw {
+    font-size: 12px; padding: 4px 10px; border-radius: 6px;
+    background: var(--card2); border: 1px solid var(--border);
+    color: var(--tx2); font-family: monospace;
+  }
+  .keyword-toggle {
+    margin-top: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card2);
+  }
+  .keyword-toggle summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--tx3);
+    font-family: monospace;
+    letter-spacing: .06em;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .keyword-toggle summary::-webkit-details-marker { display: none; }
+  .keyword-toggle summary::after {
+    content: '펼치기';
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0;
+  }
+  .keyword-toggle[open] summary::after { content: '접기'; }
+  .keyword-toggle .kw-cloud {
+    margin: 0;
+    padding: 0 12px 12px;
+  }
+
+  /* Table */
+  .src-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .src-table th {
+    text-align: left; font-size: 11px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--tx3);
+    padding: 8px 12px; border-bottom: 1px solid var(--border);
+    font-weight: 600; background: var(--card2);
+  }
+  .src-table td {
+    padding: 10px 12px; border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--tx2); vertical-align: top;
+  }
+  .src-table tr:last-child td { border-bottom: none; }
+  .src-table td:first-child { color: var(--tx1); font-weight: 600; white-space: nowrap; }
+
+  /* Industry grid */
+  .industry-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(96px,1fr));
+    gap: 10px; margin-top: 12px;
+  }
+  .ind-chip {
+    padding: 10px 8px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--card2);
+    text-align: center; font-size: 13px; font-weight: 600; color: var(--tx1);
+    transition: border-color .2s;
+  }
+  .ind-chip:hover { border-color: var(--accent); }
+  .ind-chip small { display: block; font-size: 10px; color: var(--tx3); margin-top: 3px; font-weight: 400; font-family: monospace; }
+
+  /* Claude badge */
+  .claude-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; padding: 5px 12px; border-radius: 8px;
+    background: rgba(124,58,237,.08); border: 1px solid rgba(124,58,237,.2);
+    color: var(--claude); font-weight: 600;
+  }
+
+  /* Rank items */
+  .rank-row { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .rank-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 14px; border-radius: 10px;
+    background: var(--card2); border: 1px solid var(--border);
+  }
+  .rank-icon {
+    flex-shrink: 0; width: 30px; height: 30px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--accent-bg); border: 1px solid rgba(253,128,46,.2);
+    color: var(--accent); font-weight: 700;
+  }
+  .rank-body { flex: 1; }
+  .rank-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .rank-desc { font-size: 12px; color: var(--tx2); line-height: 1.6; }
+
+  /* Info boxes */
+  .infobox { border-radius: 10px; padding: 14px 16px; font-size: 13px; line-height: 1.7; margin-top: 14px; }
+  .infobox-yellow { background: var(--yellow-bg); border: 1px solid rgba(217,119,6,.2); color: var(--yellow); }
+
+  /* Improvement cards */
+  .improve-card {
+    border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden; background: var(--card);
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  }
+  details.improve-card summary { list-style: none; cursor: pointer; }
+  details.improve-card summary::-webkit-details-marker { display: none; }
+  details.improve-card summary::after {
+    content: '펼치기';
+    margin-left: auto;
+    align-self: center;
+    font-family: monospace;
+    font-size: 11px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  details.improve-card[open] summary::after { content: '접기'; }
+  .improve-header {
+    padding: 18px 22px 16px;
+    display: flex; align-items: flex-start; gap: 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--card2);
+  }
+  .improve-icon {
+    flex-shrink: 0; width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .improve-title { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+  .improve-subtitle { font-size: 12px; color: var(--tx2); }
+  .improve-body { padding: 20px 22px; }
+
+  .problem-label {
+    font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--red); font-family: monospace; margin-bottom: 8px; font-weight: 600;
+  }
+  .problem-text {
+    font-size: 13px; color: var(--tx2); line-height: 1.7;
+    padding: 12px 14px; background: var(--red-bg);
+    border: 1px solid rgba(220,38,38,.12); border-radius: 8px; margin-bottom: 16px;
+  }
+  .solution-label {
+    font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--green); font-family: monospace; margin-bottom: 10px; font-weight: 600;
+  }
+  .solution-list { display: flex; flex-direction: column; gap: 8px; }
+  .solution-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px; color: var(--tx2); line-height: 1.6;
+    padding: 10px 12px; background: var(--green-bg);
+    border: 1px solid rgba(22,163,74,.15); border-radius: 8px;
+  }
+  .solution-item::before {
+    content: '→'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+
+  /* Divider */
+  hr.sep { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  /* Footnote */
+  .footnote { color: var(--tx3); font-size: 12px; margin-top: 80px; text-align: center; font-family: monospace; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="hero">
+    <div class="hero-badge">Marketing Brief · 리포트</div>
+    <h1>작동 메커니즘 및 개선 방안</h1>
+    <p>각 항목들이 어떤 출처에서, 어떤 기준으로 수집·가공되는지 설명합니다.<br>추가적으로 개선 방안에 대해 제시합니다.</p>
+  </div>
+
+  <!-- ══════════════ SECTION 01 — 작동 방식 ══════════════ -->
+  <section class="section">
+    <div class="section-label">
+      <span class="section-num">01</span>
+      <div class="section-divider"></div>
+      <span class="section-title">작동 방식</span>
+    </div>
+
+    <div class="card">
+      <!-- ── 오늘의 마케팅 이슈 ── -->
+      <div class="sub-sec" style="border-top:none;margin-top:0;padding-top:0;">
+        <div class="sub-label">오늘의 마케팅 이슈</div>
+        <div class="grid2">
+          <div>
+            <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:14px;">정보 출처</div>
+            <div class="flow-box fb-naver" style="width:fit-content;margin-bottom:12px;">Naver News API</div>
+            <p style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:14px;">
+              네이버 뉴스 검색 오픈 API로 마케팅 관련 기사를 수집하며<br>24시간 내 발행된 기사만 포함합니다.
+            </p>
+            <details class="keyword-toggle">
+              <summary>검색 키워드 10개</summary>
+              <div class="kw-cloud">
+                <span class="kw">마케팅 트렌드</span><span class="kw">디지털 마케팅</span>
+                <span class="kw">SNS 마케팅</span><span class="kw">브랜드 마케팅</span>
+                <span class="kw">콘텐츠 마케팅</span><span class="kw">인플루언서 마케팅</span>
+                <span class="kw">퍼포먼스 마케팅</span><span class="kw">광고 전략</span>
+                <span class="kw">소셜미디어 마케팅</span><span class="kw">온라인 마케팅</span>
+              </div>
+            </details>
+          </div>
+          <div>
+            <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:14px;">랭킹 산정 기준</div>
+            <div class="rank-row">
+              <div class="rank-item">
+                <div class="rank-icon">①</div>
+                <div class="rank-body">
+                  <div class="rank-title">전체 키워드 기사 수집 + 빈도 집계</div>
+                  <div class="rank-desc">10개 키워드를 순회하며 지정 기간 내 기사를 모두 수집합니다.</div>
+                </div>
+              </div>
+              <div class="rank-item">
+                <div class="rank-icon">②</div>
+                <div class="rank-body">
+                  <div class="rank-title">키워드 매칭 빈도 = 랭킹 지표</div>
+                  <div class="rank-desc">Naver News API는 조회수를 직접 제공하지 않습니다. <strong style="color:var(--tx1);">더 많은 키워드에서 반복 노출된 기사</strong>일수록 중요도가 높은 기사로 간주합니다.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- ── 플랫폼 트렌드 ── -->
+      <div class="sub-sec">
+        <div class="sub-label">플랫폼 트렌드</div>
+        <div class="platform-strip">
+          <button class="platform-btn active" onclick="showPlatform('naver', this)">
+            <span class="dot" style="background:var(--naver);"></span> 네이버
+          </button>
+          <button class="platform-btn" onclick="showPlatform('youtube', this)">
+            <span class="dot" style="background:var(--youtube);"></span> 유튜브
+          </button>
+          <button class="platform-btn" onclick="showPlatform('sns', this)">
+            <span class="dot" style="background:var(--instagram);"></span>
+            <span class="dot" style="background:var(--tiktok);margin-left:-2px;"></span>
+            <span class="dot" style="background:var(--x);margin-left:-2px;"></span>
+            인스타그램 · 틱톡 · X
+          </button>
+        </div>
+
+        <!-- NAVER panel -->
+        <div id="panel-naver" class="detail-panel visible">
+          <div class="grid2">
+            <div>
+              <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:14px;">정보 출처</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                <div class="flow-box fb-naver" style="font-size:12px;">Naver DataLab API</div>
+                <div class="flow-box fb-naver" style="font-size:12px;">Naver News API</div>
+                <div class="flow-box fb-claude" style="font-size:12px;">Claude Sonnet 4.6</div>
+              </div>
+              <p style="font-size:13px;color:var(--tx2);line-height:1.7;">
+                데이터랩 <strong style="color:var(--tx1);">검색어 트렌드 API</strong>로 25개 카테고리 키워드의 검색 지수를 수집합니다. 관련 뉴스 헤드라인과 함께 Claude에 전달해 구체적인 트렌딩 항목으로 변환합니다.
+              </p>
+              <details class="keyword-toggle">
+                <summary>검색 키워드 25개</summary>
+                <div class="kw-cloud">
+                  <span class="kw">드라마</span><span class="kw">아이돌</span><span class="kw">영화</span><span class="kw">예능</span><span class="kw">웹툰</span>
+                  <span class="kw">맛집</span><span class="kw">레시피</span><span class="kw">배달음식</span><span class="kw">카페</span>
+                  <span class="kw">여행</span><span class="kw">캠핑</span><span class="kw">인테리어</span>
+                  <span class="kw">패션</span><span class="kw">뷰티</span><span class="kw">다이어트</span>
+                  <span class="kw">야구</span><span class="kw">축구</span><span class="kw">골프</span>
+                  <span class="kw">AI</span><span class="kw">스마트폰</span><span class="kw">게임</span>
+                  <span class="kw">부동산</span><span class="kw">주식</span><span class="kw">코인</span>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <!-- YOUTUBE panel -->
+        <div id="panel-youtube" class="detail-panel">
+          <div class="grid2">
+            <div>
+              <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:14px;">정보 출처</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                <div class="flow-box fb-youtube" style="font-size:12px;">YouTube Data API v3</div>
+              </div>
+              <p style="font-size:13px;color:var(--tx2);line-height:1.7;">
+                YouTube 공식 API의 <strong style="color:var(--tx1);">한국(KR) 인기 급상승 동영상</strong>을 수집합니다.
+              </p>
+            </div>
+            <div>
+              <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:14px;">랭킹 산정 방식</div>
+              <div class="rank-row">
+                <div class="rank-item">
+                  <div class="rank-icon" style="font-size:15px;">▶</div>
+                  <div class="rank-body">
+                    <div class="rank-title">YouTube 자체 인기 급상승 순위 사용</div>
+                    <div class="rank-desc">별도 랭킹 로직 없이 YouTube API가 제공하는 인기 급상승 순서를 그대로 사용합니다. 조회수·좋아요·댓글 등 복합 지표를 YouTube가 자체 계산합니다.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SNS panel -->
+        <div id="panel-sns" class="detail-panel">
+          <div class="grid2">
+            <div>
+              <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:14px;">정보 출처 — 공통</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                <div class="flow-box fb-naver" style="font-size:12px;">Naver News API</div>
+                <div class="flow-box fb-x" style="font-size:12px;">Google News RSS</div>
+                <div class="flow-box fb-claude" style="font-size:12px;">Claude Sonnet 4.6</div>
+              </div>
+              <p style="font-size:13px;color:var(--tx2);line-height:1.7;">플랫폼별 전용 키워드로 정보를 수집해 Claude에 전달하여 TOP 3 트렌드를 추출합니다.</p>
+              <details class="keyword-toggle">
+                <summary>플랫폼별 검색 키워드</summary>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:0 12px 12px;">
+                  <div>
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                      <span style="width:8px;height:8px;border-radius:50%;background:var(--instagram);flex-shrink:0;"></span>
+                      <span style="font-size:11px;color:var(--tx3);font-family:monospace;letter-spacing:.06em;">인스타그램 · 9개</span>
+                    </div>
+                    <div class="kw-cloud">
+                      <span class="kw">인스타그램 릴스 인기</span><span class="kw">인스타그램 트렌드</span><span class="kw">인스타그램 유행</span><span class="kw">인스타그램 챌린지</span><span class="kw">릴스 트렌드</span><span class="kw">인스타 이슈</span><span class="kw">릴스 바이럴</span><span class="kw">인스타그램 바이럴</span><span class="kw">인스타 핫이슈</span>
+                    </div>
+                  </div>
+                  <div>
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                      <span style="width:8px;height:8px;border-radius:50%;background:var(--tiktok);flex-shrink:0;"></span>
+                      <span style="font-size:11px;color:var(--tx3);font-family:monospace;letter-spacing:.06em;">틱톡 · 9개</span>
+                    </div>
+                    <div class="kw-cloud">
+                      <span class="kw">틱톡 트렌드</span><span class="kw">틱톡 챌린지 인기</span><span class="kw">틱톡 유행</span><span class="kw">틱톡 이슈</span><span class="kw">틱톡 화제</span><span class="kw">숏폼 트렌드</span><span class="kw">틱톡 바이럴</span><span class="kw">틱톡 인기 영상</span><span class="kw">숏폼 콘텐츠 유행</span>
+                    </div>
+                  </div>
+                  <div>
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                      <span style="width:8px;height:8px;border-radius:50%;background:var(--x);flex-shrink:0;"></span>
+                      <span style="font-size:11px;color:var(--tx3);font-family:monospace;letter-spacing:.06em;">X(트위터) · 10개</span>
+                    </div>
+                    <div class="kw-cloud">
+                      <span class="kw">트위터 화제</span><span class="kw">X 트위터 트렌딩</span><span class="kw">SNS 실시간 화제</span><span class="kw">트위터 실시간</span><span class="kw">X 실시간 이슈</span><span class="kw">트위터 트렌드</span><span class="kw">SNS 화제</span><span class="kw">트위터 인기</span><span class="kw">X 트위터 이슈</span><span class="kw">트위터 논란</span>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </div>
+            <div>
+              <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:14px;">랭킹 산정 방식 — 공통</div>
+              <div class="steps">
+                <div class="step">
+                  <div class="step-num">1</div>
+                  <div class="step-body">
+                    <div class="step-title">플랫폼별 이슈 수집</div>
+                    <div class="step-desc">플랫폼별 전용 키워드로 Naver·Google News에서 정보를 수집합니다.</div>
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="step-num">2</div>
+                  <div class="step-body">
+                    <div class="step-title">결과 병합</div>
+                    <div class="step-desc">수집 결과를 합쳐 Claude에 전달합니다.</div>
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="step-num">3</div>
+                  <div class="step-body">
+                    <div class="step-title">Claude 트렌드 추출</div>
+                    <div class="step-desc">기사에 명시된 키워드·챌린지명·해시태그를 사용해 각 플랫폼의 <strong>TOP 3 트렌드</strong>를 추출합니다.</div>
+                    <div class="step-meta"><span class="claude-badge">✦ Claude Sonnet 4.6</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 업종별 인사이트 ── -->
+      <div class="sub-sec">
+        <div class="sub-label">업종별 인사이트</div>
+        <div class="grid2">
+          <div>
+            <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:14px;">정보 출처 및 수집 방식</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+              <div class="flow-box fb-naver" style="font-size:12px;">Naver News API</div>
+              <div class="flow-box fb-claude" style="font-size:12px;">Claude Sonnet 4.6</div>
+            </div>
+            <p style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:16px;">
+              11개 업종에 대해 각각 3개 키워드로 네이버 뉴스를 수집한 뒤<br>Claude가 기사를 분석해 <strong style="color:var(--tx1);">성공사례 · 이슈 · 트렌드</strong> 3종 리포트를 생성합니다.
+            </p>
+            <details class="keyword-toggle">
+              <summary>분석 대상 업종 11개</summary>
+              <div class="industry-grid" style="padding:0 12px 12px;margin-top:0;">
+                <div class="ind-chip">법률<small>로펌·변호사</small></div>
+                <div class="ind-chip">병원<small>의원·클리닉</small></div>
+                <div class="ind-chip">식당<small>외식·배달</small></div>
+                <div class="ind-chip">숙박<small>호텔·펜션</small></div>
+                <div class="ind-chip">식품<small>건강식품</small></div>
+                <div class="ind-chip">의류<small>패션·브랜드</small></div>
+                <div class="ind-chip">용품<small>생활·아웃도어</small></div>
+                <div class="ind-chip">화장품<small>뷰티·코스메틱</small></div>
+                <div class="ind-chip">반려동물<small>펫·사료</small></div>
+                <div class="ind-chip">가전<small>전자제품</small></div>
+                <div class="ind-chip">가구<small>인테리어</small></div>
+              </div>
+            </details>
+          </div>
+          <div>
+            <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:14px;">정보 정리 방식</div>
+            <div class="steps">
+              <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-body">
+                  <div class="step-title">키워드별 뉴스 수집</div>
+                  <div class="step-desc">각 업종당 3개 키워드로 뉴스를 조회합니다.</div>
+                  <div class="step-meta">
+                    <span class="tag"><span class="tag-dot" style="background:var(--naver);"></span>예: "법률 마케팅", "로펌 광고", "변호사 마케팅"</span>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-body">
+                  <div class="step-title">Claude 분석 프롬프트</div>
+                  <div class="step-desc">수집된 기사를 Claude에 제공하여 분석을 요청합니다.</div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-body">
+                  <div class="step-title">분석 결과 제공</div>
+                  <div class="step-desc">Claude는 성공사례·이슈·트렌드를 각 5~8문장으로 생성하며<br>각 항목에 참고 기사를 명시해 근거 추적이 가능합니다.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="keyword-toggle" style="margin-top:28px;">
+          <summary>업종별 Naver 뉴스 수집 키워드</summary>
+          <div style="overflow-x:auto;padding:0 12px 12px;">
+            <table class="src-table">
+              <thead><tr><th>업종</th><th>검색 키워드</th></tr></thead>
+              <tbody>
+                <tr><td>법률</td><td>법률 마케팅 &nbsp;·&nbsp; 로펌 광고 &nbsp;·&nbsp; 변호사 마케팅</td></tr>
+                <tr><td>병원</td><td>병원 마케팅 &nbsp;·&nbsp; 의원 광고 &nbsp;·&nbsp; 의료 마케팅</td></tr>
+                <tr><td>식당</td><td>식당 마케팅 &nbsp;·&nbsp; 외식 마케팅 &nbsp;·&nbsp; 음식점 광고</td></tr>
+                <tr><td>숙박</td><td>숙박 마케팅 &nbsp;·&nbsp; 호텔 마케팅 &nbsp;·&nbsp; 펜션 광고</td></tr>
+                <tr><td>식품</td><td>식품 마케팅 &nbsp;·&nbsp; 건강식품 광고 &nbsp;·&nbsp; 식품 브랜드</td></tr>
+                <tr><td>의류</td><td>의류 마케팅 &nbsp;·&nbsp; 패션 마케팅 &nbsp;·&nbsp; 패션 브랜드 광고</td></tr>
+                <tr><td>용품</td><td>생활용품 마케팅 &nbsp;·&nbsp; 아웃도어 마케팅 &nbsp;·&nbsp; 용품 광고</td></tr>
+                <tr><td>화장품</td><td>화장품 마케팅 &nbsp;·&nbsp; 뷰티 마케팅 &nbsp;·&nbsp; 코스메틱 광고</td></tr>
+                <tr><td>반려동물</td><td>반려동물 마케팅 &nbsp;·&nbsp; 펫 마케팅 &nbsp;·&nbsp; 반려동물 용품</td></tr>
+                <tr><td>가전</td><td>가전제품 마케팅 &nbsp;·&nbsp; 가전 광고 &nbsp;·&nbsp; 전자제품 마케팅</td></tr>
+                <tr><td>가구</td><td>가구 마케팅 &nbsp;·&nbsp; 인테리어 마케팅 &nbsp;·&nbsp; 가구 광고</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+
+      <!-- ── 기술 스택 ── -->
+      <div class="sub-sec">
+        <div class="sub-label">기술 스택 &amp; API 구성</div>
+        <div class="grid3">
+          <div class="card2">
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:12px;">Backend</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:#009688;"></span>FastAPI (Python)</div>
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:#4caf50;"></span>SSE 실시간 스트리밍</div>
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:#ff9800;"></span>JSON 일별 캐시</div>
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:#2196f3;"></span>asyncio 병렬 수집</div>
+            </div>
+          </div>
+          <div class="card2">
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:12px;">Frontend</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:#61dafb;"></span>React (Vite)</div>
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:#38bdf8;"></span>Tailwind CSS</div>
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:#f59e0b;"></span>EventSource API</div>
+            </div>
+          </div>
+          <div class="card2">
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-family:monospace;margin-bottom:12px;">외부 API</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:var(--naver);"></span>Naver Open API</div>
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:var(--youtube);"></span>YouTube Data v3</div>
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:var(--claude);"></span>Anthropic API</div>
+              <div class="tag" style="width:fit-content;"><span class="tag-dot" style="background:#374151;"></span>Google News RSS</div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════ SECTION 02 — 개선방안 ══════════════ -->
+  <section class="section">
+    <div class="section-label">
+      <span class="section-num">02</span>
+      <div class="section-divider"></div>
+      <span class="section-title">개선방안</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <!-- 마케팅 이슈 -->
+      <details class="improve-card">
+        <summary class="improve-header">
+          <div class="improve-icon" style="background:rgba(253,128,46,.1);border:1px solid rgba(253,128,46,.2);">📰</div>
+          <div>
+            <div class="improve-title">오늘의 마케팅 이슈</div>
+            <div class="improve-subtitle">랭킹 산정 기준 개선</div>
+          </div>
+        </summary>
+        <div class="improve-body">
+          <div class="problem-label">현재 문제점</div>
+          <div class="problem-text">
+            Naver News API는 조회수를 직접 제공하지 않아 우선순위 산정 기준이 모호합니다.<br>현재는 복수 키워드에서 반복 노출된 기사를 높은 중요도로 간주하는 방식을 사용하지만, 이는 실제 독자 관심도와 괴리가 있을 수 있습니다.
+          </div>
+          <div class="solution-label">개선 방향</div>
+          <div class="solution-list">
+            <div class="solution-item"><strong>언론사 신뢰도·규모</strong>를 가중치로 반영해 주요 언론사 기사를 우선 노출</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 네이버 트렌드 -->
+      <details class="improve-card">
+        <summary class="improve-header">
+          <div class="improve-icon" style="background:rgba(3,199,90,.1);border:1px solid rgba(3,199,90,.2);">🟢</div>
+          <div>
+            <div class="improve-title">플랫폼 트렌드 — 네이버</div>
+            <div class="improve-subtitle">API 의존성 및 데이터 완성도 개선</div>
+          </div>
+        </summary>
+        <div class="improve-body">
+          <div class="problem-label">현재 문제점</div>
+          <div class="problem-text">
+            Naver DataLab API에 전적으로 의존하는 구조입니다.
+          </div>
+          <div class="solution-label">개선 방향</div>
+          <div class="solution-list">
+            <div class="solution-item">추가 검토 필요(자체 API 이상의 데이터 소스를 구하는 것이 쉽지 않음)</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 유튜브 -->
+      <details class="improve-card">
+        <summary class="improve-header">
+          <div class="improve-icon" style="background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.15);">▶</div>
+          <div>
+            <div class="improve-title">플랫폼 트렌드 — 유튜브</div>
+            <div class="improve-subtitle">광대한 데이터 필터링 및 마케팅 특화</div>
+          </div>
+        </summary>
+        <div class="improve-body">
+          <div class="problem-label">현재 문제점</div>
+          <div class="problem-text">
+            YouTube 인기 급상승 데이터는 엔터테인먼트·게임·스포츠 등 마케팅과 무관한 콘텐츠를 대거 포함합니다.<br>카테고리 필터 없이 수집하면 마케터에게 유용한 인사이트보다 단순 인기 콘텐츠 목록에 그칠 수 있습니다.
+          </div>
+          <div class="solution-label">개선 방향</div>
+          <div class="solution-list">
+            <div class="solution-item">YouTube API <strong>카테고리 필터</strong>(마케팅·비즈니스·교육 등)를 적용해 마케팅 관련 콘텐츠만 선별</div>
+            <div class="solution-item">인기 급상승 순위 대신 <strong>Hype 지수</strong>를 분석해 폭발적으로 증가 중인 콘텐츠를 포착</div>
+            <div class="solution-item">영상 제목·설명에 Claude를 활용한 <strong>마케팅 연관성 스코어링</strong>으로 노이즈 제거</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- SNS -->
+      <details class="improve-card">
+        <summary class="improve-header">
+          <div class="improve-icon" style="background:rgba(225,48,108,.08);border:1px solid rgba(225,48,108,.15);">📱</div>
+          <div>
+            <div class="improve-title">플랫폼 트렌드 — 인스타그램 · 틱톡 · X</div>
+            <div class="improve-subtitle">실시간성 한계 및 비용 문제 해결</div>
+          </div>
+        </summary>
+        <div class="improve-body">
+          <div class="problem-label">현재 문제점</div>
+          <div class="problem-text">
+            SNS 트렌드는 시간별·분 단위로 계속 바뀌기 때문에 현재의 1회성 수집 방식은 실시간 트렌드를 정확히 반영하기 어렵습니다.<br>공식 API가 없어 뉴스 기사를 간접 수집하는 방식이라 지연이 불가피하며, 실시간 모니터링을 추가할 경우 비용이 크게 증가합니다.
+          </div>
+          <div class="solution-label">개선 방향</div>
+          <div class="solution-list">
+            <div class="solution-item">지속적인 모니터링을 통해 시간대별 트렌드 변화 추적. 단 이 경우 모니터링 비용을 고려해야 함</div>
+            <div class="solution-item">트렌드 지속 시간을 측정해 <strong>일시적 이슈 vs 지속 트렌드</strong>를 구분하는 태깅 시스템 도입</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 업종별 인사이트 -->
+      <details class="improve-card">
+        <summary class="improve-header">
+          <div class="improve-icon" style="background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.15);">🏢</div>
+          <div>
+            <div class="improve-title">업종별 마케팅 인사이트</div>
+            <div class="improve-subtitle">품질 고도화 및 개인화</div>
+          </div>
+        </summary>
+        <div class="improve-body">
+          <div class="problem-label">현재 상태</div>
+          <div class="problem-text">
+            현재 11개 업종에 대해 Claude가 성공사례·이슈·트렌드 3종 리포트를 생성하는 구조입니다. 업종별 추가 개선 방향은 지속 검토 중입니다.
+          </div>
+          <div class="solution-label">개선 방향</div>
+          <div class="solution-list">
+            <div class="solution-item">업종별로<strong>전문 프롬프트를 최적화</strong>하여 업종 특성에 맞는 더 정교한 분석 생성</div>
+            <div class="solution-item">Claude 분석에 <strong>경쟁사 사례·벤치마크 데이터</strong>를 함께 제공해 구체성 향상</div>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <div class="footnote">Marketing Brief · 작동 방식 리포트</div>
+
+</div>
+
+<script>
+  function showPlatform(key, btn) {
+    document.querySelectorAll('.detail-panel').forEach(el => el.classList.remove('visible'));
+    document.querySelectorAll('.platform-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('panel-' + key).classList.add('visible');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
